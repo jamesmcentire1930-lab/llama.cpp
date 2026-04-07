@@ -594,3 +594,46 @@ $ echo "source ~/.llama-completion.bash" >> ~/.bashrc
 - [nlohmann/json](https://github.com/nlohmann/json) - Single-header JSON library, used by various tools/examples - MIT License
 - [miniaudio.h](https://github.com/mackron/miniaudio) - Single-header audio format decoder, used by multimodal subsystem - Public domain
 - [subprocess.h](https://github.com/sheredom/subprocess.h) - Single-header process launching solution for C and C++ - Public domain
+import re
+
+def test_password_strength(password, username="Dewaa21"):
+    feedback = []
+    
+    # 1. Username Check
+    if username.lower() in password.lower():
+        feedback.append("Password should not contain your username.")
+        
+    # 2. Length Check
+    if len(password) < 8:
+        feedback.append("Password must be at least 8 characters long.")
+        
+    # 3. Uppercase Check
+    if not re.search(r"[A-Z]", password):
+        feedback.append("Password must contain at least one uppercase letter.")
+        
+    # 4. Lowercase Check
+    if not re.search(r"[a-z]", password):
+        feedback.append("Password must contain at least one lowercase letter.")
+        
+    # 5. Digit Check
+    if not re.search(r"\d", password):
+        feedback.append("Password must contain at least one number.")
+        
+    # 6. Special Character Check
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        feedback.append("Password must contain at least one special character.")
+        
+    if feedback:
+        return "Weak Password:\n" + "\n".join(f"- {item}" for item in feedback)
+    else:
+        return "Strong Password!"
+
+# Testing with a weak password containing the username
+print("Test 1: 'Dewaa21Secure!'")
+print(test_password_strength("Dewaa21Secure!"))
+
+print("\n---")
+
+# Testing with a strong, compliant password
+print("\nTest 2: 'Str0ngP@ssw0rd!'")
+print(test_password_strength("Str0ngP@ssw0rd!"))
